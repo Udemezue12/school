@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Communications</h1>
+<form method="post">
+    <div>
+        <label>Recipient</label>
+        <select name="recipient_id">
+            {% for user in users %}
+            <option value="{{ user.id }}">{{ user.username }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <label>Message</label>
+        <textarea name="content"></textarea>
+    </div>
+    <button type="submit">Send</button>
+</form>
+<h2>Sent Messages</h2>
+<ul>
+    {% for message in communications_sent %}
+    <li>To {{ message.recipient.username }}: {{ message.content }}</li>
+    {% endfor %}
+</ul>
+<h2>Received Messages</h2>
+<ul>
+    {% for message in communications_received %}
+    <li>From {{ message.sender.username }}: {{ message.content }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

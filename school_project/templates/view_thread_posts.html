@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ thread.title }}</h1>
+<ul>
+    {% for post in posts %}
+    <li>{{ post.content }} (By: {{ post.author.username }})</li>
+    {% endfor %}
+</ul>
+{% endblock %}

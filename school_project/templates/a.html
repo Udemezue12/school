@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Teacher Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center">Welcome, {{ current_user.last_name }}!</h1>
+    <div class="row">
+        {% for class in classes %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ class.name }} - {{ class.section }}</h5>
+                    </div>
+                </div>
+            </div> 
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">View Students</h5>
+                        <a href="{{ url_for('teacher.view_students', class_id=class.id) }}" class="btn btn-secondary">View Students</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Pay for Result PIN</h5>
+                        <p class="card-text">Make a payment to get your result PIN.</p>
+                        <a href="{{ url_for('student.charge') }}" class="btn btn-primary">Pay Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">View Roster</h5>
+                        <a href="{{ url_for('teacher.view_class_roster', class_id=class.id) }}" class="btn btn-primary">View Roster</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Take Attendance</h5>
+                        <a href="{{ url_for('teacher.take_attendance', class_id=class.id) }}" class="btn btn-secondary">Take Attendance</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Gradebook</h5>
+                        <a href="{{ url_for('teacher.manage_gradebook', class_id=class.id) }}" class="btn btn-success">Gradebook</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Assignments</h5>
+                        <a href="{{ url_for('teacher.manage_assignments', class_id=class.id) }}" class="btn btn-info">Assignments</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Personal Calendar</h5>
+                        <a href="{{ url_for('teacher.personal_calendar') }}" class="btn btn-success">Personal Calendar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">View Attendance Reports</h5>
+                        <a href="{{ url_for('teacher.view_attendance_reports', class_id=class.id) }}" class="btn btn-success">View Attendance Reports</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Resources</h5>
+                        <a href="{{ url_for('teacher.resources') }}" class="btn btn-success">Resources</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Communications</h5>
+                        <a href="{{ url_for('teacher.communications') }}" class="btn btn-success">Communications</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

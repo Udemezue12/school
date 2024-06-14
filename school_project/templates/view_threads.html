@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Forum Threads</h1>
+<ul>
+    {% for thread in threads %}
+    <li><a href="{{ url_for('parent.view_thread_posts', thread_id=thread.id) }}">{{ thread.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

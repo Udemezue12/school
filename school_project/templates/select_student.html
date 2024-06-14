@@ -1,0 +1,13 @@
+<!-- templates/teacher/select_student.html -->
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Select Student to Mark Attendance</h1>
+  <ul>
+    {% for student in students %}
+      <li>
+        <a href="{{ url_for('teachers.mark_attendance', student_id=student.id) }}">{{ student.users.last_name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ student.name }}'s Details</h1>
+<div>
+    <h2>Attendance</h2>
+    <ul>
+        {% for record in attendance %}
+        <li>{{ record.date }}: {{ record.status }}</li>
+        {% endfor %}
+    </ul>
+</div>
+<div>
+    <h2>Grades</h2>
+    <ul>
+        {% for grade in grades %}
+        <li>{{ grade.subject }}: {{ grade.score }}</li>
+        {% endfor %}
+    </ul>
+</div>
+<div>
+    <h2>Messages</h2>
+    <ul>
+        {% for message in messages %}
+        <li>{{ message.content }} (From: {{ message.sender.username }})</li>
+        {% endfor %}
+    </ul>
+</div>
+<div>
+    <h2>Assignments</h2>
+    <ul>
+        {% for assignment in child_assignments %}
+        <li>{{ assignment.title }} - Due: {{ assignment.deadline }}</li>
+        {% endfor %}
+    </ul>
+</div>
+<div>
+    <h2>Upcoming Assignments</h2>
+    <ul>
+        {% for assignment in child_upcoming_assignments %}
+        <li>{{ assignment.title }} - Due: {{ assignment.deadline }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+<!-- templates/view_classes.html -->
+{% extends "base.html" %}
+{% block content %}
+    <h1>All Classes</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Class ID</th>
+                <th scope="col">Class Name</th>
+                <th scope="col">Section</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for class in classes %}
+            <tr>
+                <td>{{ class.id }}</td>
+                <td>{{ class.name }}</td>
+                <td>{{ class.section }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

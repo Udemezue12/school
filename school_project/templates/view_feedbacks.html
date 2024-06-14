@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="mb-4">Feedbacks</h2>
+        <div class="list-group">
+            {% for feedback in feedbacks %}
+            <div class="list-group-item">
+                <h5>{{ feedback.sender.first_name }} {{ feedback.sender.last_name }} <small class="text-muted">{{ feedback.timestamp }}</small></h5>
+                <p>{{ feedback.content }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock  %}

@@ -1,0 +1,5 @@
+.env
+/migrations/
+/schoolenv/
+manage.py
+/school_project/templates/base-a.html

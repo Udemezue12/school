@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Mark Attendance for {{ student.users.last_name }}</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div>
+        <label for="date">Date</label>
+        {{ form.date() }}
+    </div>
+    <div>
+        <label for="status">Status</label>
+        {{ form.status() }}
+    </div>
+    <div>
+        {{ form.submit() }}
+    </div>
+</form>
+{% endblock %}

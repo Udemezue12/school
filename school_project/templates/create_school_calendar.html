@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Create School Calendar Entry</h2>
+    <form method="POST" action="{{ url_for('principal.create_school_calendar') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.event_name.label(class="form-label") }}
+            {{ form.event_name(class="form-control") }}
+            {% for error in form.event_name.errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {{ form.event_date.label(class="form-label") }}
+            {{ form.event_date(class="form-control") }}
+            {% for error in form.event_date.errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Create Entry</button>
+        </div>
+    </form>
+    <a href="{{ url_for('principal.view_school_calendar') }}">View School Calendar</a>
+    <a href="{{ url_for('core.index') }}">Back to Home</a>
+
+{% endblock  %}

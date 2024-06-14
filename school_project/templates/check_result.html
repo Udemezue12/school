@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Enter PIN{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="text-center">Enter PIN</h2>
+        <form method="POST" action="{{ url_for('student.check_results') }}">
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                {{ form.pin.label(class="form-label") }}
+                {{ form.pin(class="form-control") }}
+            </div>
+            <div class="d-grid gap-2">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

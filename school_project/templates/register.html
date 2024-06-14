@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section id="projects" class="py-5">
+    <h2 class="text-center mb-4"><strong>Register</strong></h2>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card text-center shadow-sm" data-aos="zoom-out">
+                    <a href="{{ url_for('principal.register') }}" class="stretched-link"></a>
+                    <div class="card-body">
+                        <h3 class="card-title"><strong>For Principal</strong></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card text-center shadow-sm" data-aos="zoom-out">
+                    <a href="{{ url_for('student.register') }}" class="stretched-link"></a>
+                    <div class="card-body">
+                        <h3 class="card-title"><strong>For Students</strong></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card text-center shadow-sm" data-aos="zoom-out">
+                    <a href="{{ url_for('teacher.register') }}" class="stretched-link"></a>
+                    <div class="card-body">
+                        <h3 class="card-title"><strong>For Teachers</strong></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    #projects {
+        background-color: #f8f9fa;
+    }
+    .card {
+        transition: transform 0.2s;
+    }
+    .card:hover {
+        transform: scale(1.05);
+    }
+    .card-body {
+        padding: 1.5rem;
+    }
+    .card-title {
+        font-size: 1.5rem;
+        margin-bottom: 0;
+    }
+    .stretched-link::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+</style>
+
+{% endblock %}

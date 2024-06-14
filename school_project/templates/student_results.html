@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}View Results{% endblock %}
+{% block content %}
+    <h1>Results for {{ student.first_name }} {{ student.last_name }}</h1>
+    <h3>Class: {{ class_.name }}</h3>
+    <h3>Principal: {{ principal_name }}</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grade in grades %}
+                <tr>
+                    <td>{{ grade.subject }}</td>
+                    <td>{{ grade.grade }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

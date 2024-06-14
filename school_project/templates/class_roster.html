@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Class Roster{% endblock %}
+
+{% block content %}
+<h2 class="text-center">Class Roster: {{ class_.name }} - {{ class_.section }}</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <!-- <th>ID</th> -->
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in students %}
+            <tr>
+                <!-- <td>{{ student.id }}</td> -->
+                <td>{{ student.users.first_name }} {{ student.users.last_name }}</td>
+                <td>{{ student.users.email }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('teacher.manage_assignments', class_id=class.id) }}" class="btn btn-success mt-3">Manage Assignments</a>
+<a href="{{ url_for('teacher.teacher_dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+{% endblock %}

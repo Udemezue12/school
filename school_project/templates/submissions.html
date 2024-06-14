@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+<div class="container mt-5">
+    <h2>All Submissions</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Feedback</th>
+                <th scope="col">Date</th>
+                <th scope="col">Content</th>
+                <th scope="col">Teachers</th>
+                <th scope="col">Student</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for submission in submissions %}
+            <tr>
+                <td>{{ submission.feedback }}</td>
+                <td>{{ submission.date_submitted.strftime('%Y-%m-%d') }}</td>
+                <td>{{ submission.content }}</td>
+                <td>{{ submission.teacher_id }}</td>
+                <td>{{ submission.student_id }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+{% endblock  %}

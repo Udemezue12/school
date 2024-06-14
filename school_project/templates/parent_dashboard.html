@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="dashboard">
+    <h1>Welcome, {{ current_user.username }}</h1>
+    <div class="students-section">
+        <h2>Your Children</h2>
+        <ul>
+            {% for student in students %}
+            <li>
+                <a href="{{ url_for('parent.child_details', student_id=student.id) }}">{{ student.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="links-section">
+        <h2>Quick Links</h2>
+        <ul>
+            <li><a href="{{ url_for('parent.school_calendars') }}">School Calendar</a></li>
+            <li><a href="{{ url_for('parent.view_messages') }}">View Messages</a></li>
+            <li><a href="{{ url_for('parent.send_message') }}">Send a Message</a></li>
+            <li><a href="{{ url_for('parent.view_threads') }}">Forum</a></li>
+            <li><a href="{{ url_for('parent.check_result') }}">Check Results</a></li>
+            <li><a href="{{ url_for('parent.assignments', student_id=students.id) }}">Check Assignments</a></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

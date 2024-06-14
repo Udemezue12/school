@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .container {
+        margin-top: 5rem;
+    }
+    h1 {
+        font-size: 2.5rem;
+        color: #343a40;
+        margin-bottom: 2rem;
+    }
+    .card {
+        background-color: #c97e7e98;
+        border: none;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .card-body {
+        padding: 2rem;
+    }
+    .card-title {
+        font-size: 1.5rem;
+        color: #a6ff00;
+        margin-bottom: 1rem;
+    }
+    .btn-primary {
+        background-color: #440a27;
+        border-color: #007bff;
+        font-size: 1rem;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .btn-primary:hover {
+        background-color: #557da8;
+        transform: translateY(-2px);
+    }
+    .row {
+        margin-top: 1rem;
+    }
+</style>
+
+<div class="container">
+    <h1 class="text-center">Welcome {{ current_user.last_name }} to your Dashboard</h1>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Upload Results</h5>
+                    <a href="{{ url_for('teacher.upload_results') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">View Logs</h5>
+                    <a href="{{ url_for('teacher.view_logs') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Events</h5>
+                    <a href="{{ url_for('teacher.view_events') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Students</h5>
+                    <a href="{{ url_for('teacher.view_students') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Send Message</h5>
+                    <a href="{{ url_for('teacher.send_message') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Inbox</h5>
+                    <a href="{{ url_for('teacher.view_messages') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">School Calendar</h5>
+                    <a href="{{ url_for('teacher.view_school_calendar') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Assignment</h5>
+                    <a href="{{ url_for('teacher.create_assignment') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Student Assignment</h5>
+                    <a href="{{ url_for('teacher.view_assignments') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">School Submissions</h5>
+                    <a href="{{ url_for('teacher.view_submission') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Create Resources</h5>
+                    <a href="{{ url_for('teacher.resources') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">My Resources</h5>
+                    <a href="{{ url_for('teacher.view_resources') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">School Details</h5>
+                    <a href="{{ url_for('teacher.view_schools') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Personal Calendar</h5>
+                    <a href="{{ url_for('teacher.view_personal_calendar') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Create Personal Calendar</h5>
+                    <a href="{{ url_for('teacher.personal_calendar') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+
+        {% for submission in submissions %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                  <div class="card-body text-center">
+
+                  <h5 class="card-title">Provide Feedback for {{ submission.title }}</h5>
+                  <a href="{{ url_for('teacher.provide_feedback', submission_id=submission.id) }}" class="btn btn-primary">Go</a>
+                  </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% for assignment in assignments %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card shadow-sm h-100">
+
+                  <div class="card-body text-center">
+                  <h5 class="card-title">{{ assignment.title }}</h5>
+                  <a href="{{ url_for('teacher.view_submissions', assignment_id=assignment.id) }}" class="btn btn-primary">View Submissions</a>
+                  </div>
+                </div>
+            </div>
+           {% endfor %}
+            
+
+
+
+
+
+
+
+{% endblock %}

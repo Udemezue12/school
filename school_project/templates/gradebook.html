@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Gradebook{% endblock %}
+
+{% block content %}
+<h2 class="text-center">Gradebook: {{ class_.name }} - {{ class_.section }}</h2>
+<form method="POST" class="mb-4">
+    {{ form.hidden_tag() }}
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            {{ form.student_id.label(class="form-label") }}
+            {{ form.student_id(class="form-control") }}
+        </div>
+        <div class="form-group col-md-4">
+            {{ form.subject.label(class="form-label") }}
+            {{ form.subject(class="form-control") }}
+        </div>
+        <div class="form-group col-md-4">
+            {{ form.grade.label(class="form-label") }}
+            {{ form.grade(class="form-control") }}
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">Add Grade</button>
+</form>
+
+<h3 class="mt-4">Grades</h3>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Subject</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grade in grades %}
+                <tr>
+                    <td>{{ grade.student.users.first_name }} {{ grade.student.users.last_name }}</td>
+                    <td>{{ grade.subject }}</td>
+                    <td>{{ grade.grade }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{{ url_for('teacher.teacher_dashboard') }}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+{% endblock %}

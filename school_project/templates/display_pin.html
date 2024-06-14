@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Generated PIN</h1>
+    <p>Your PIN is: <strong>{{ pin }}</strong></p>
+    <p><a href="{{ url_for('users.register') }}">Go to Registration</a></p>
+</div>
+
+
+
+
+{% endblock  %}

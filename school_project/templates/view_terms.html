@@ -1,0 +1,27 @@
+<!-- templates/view_classes.html -->
+{% extends "base.html" %}
+{% block content %}
+    <h1>All Classes</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Term ID</th>
+                <th scope="col">Term Name</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for term in terms %}
+            <tr>
+                <td>{{ term.id }}</td>
+                <td>{{ term.name }}</td>
+                <td>{{ term.start_date }}</td>
+                <td>{{ term.end_date }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

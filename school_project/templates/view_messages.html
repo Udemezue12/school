@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .container {
+        margin-top: 5rem;
+    }
+    .card {
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .card-title {
+        color: #007bff;
+        margin-bottom: 1rem;
+    }
+    .card-text {
+        font-size: 1rem;
+        color: #333;
+    }
+    .text-center {
+        margin-top: 4rem;
+    }
+</style>
+<div class="container">
+    <h1 class="text-center mb-4">Messages</h1>
+    <div class="row">
+        {% for message in messages %}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">From: {{ message.sender.username }}</h5>
+                    <p class="card-text">{{ message.content }}</p>
+                    <p class="card-text"><small class="text-muted">{{ message.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center">
+        <a href="{{ url_for('users.dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

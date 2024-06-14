@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Result Sheet</h1>
+<ul>
+    {% for grade in grades %}
+    <li>{{ grade.subject }}: {{ grade.score }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Forum</h1>
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.title.label }}<br>
+        {{ form.title }}
+    </div>
+    <button type="submit">Create Thread</button>
+</form>
+<ul>
+    {% for thread in threads %}
+    <li><a href="{{ url_for('parent.view_thread_posts', thread_id=thread.id) }}">{{ thread.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

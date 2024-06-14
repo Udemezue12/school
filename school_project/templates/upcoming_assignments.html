@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Upcoming Assignments for {{ student.name }}</h1>
+<ul>
+    {% for assignment in upcoming_assignments %}
+    <li>{{ assignment.title }} - Due: {{ assignment.deadline }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

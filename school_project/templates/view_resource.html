@@ -1,0 +1,60 @@
+<!-- templates/view_subjects.html -->
+{% extends "base.html" %}
+{% block content %}
+   
+    
+
+<style>
+    body {
+        background-color: #f0f2f5;
+        padding: 2rem;
+    }
+    .resource-card {
+        background-color: #ffffff;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 1rem;
+    }
+    .resource-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .resource-card h5 {
+        margin-bottom: 1rem;
+        color: #007bff;
+    }
+</style>
+
+<div class="container">
+<h2 class="text-center">Resources</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">File Path</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Link</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for resource in resources %}
+        <tr>
+            <td>{{ resource.id }}</td>
+            <td>{{ resource.file_path }}</td>
+            <td>{{ resource.title }}</td>
+            <td>{{ resource.description }}</td>
+            <td>{{ resource.link}}</td>               
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</div>
+<a href="{{ url_for('teacher.teacher_dashboard') }}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+</div>
+
+{% endblock %}

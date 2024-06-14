@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <form method="POST" action="{{ url_for('principal.assign_student') }}">
+        {{ form.hidden_tag() }}
+        <div>
+            <label for="students">Students:</label>
+            {{ form.students(class="form-control", id="students") }}
+        </div>
+        <div>
+            <label for="classes">Classes:</label>
+            {{ form.classes(class="form-control", id="classes") }}
+        </div>
+        <div>
+            <label for="subjects">Subjects:</label>
+            {{ form.subjects(class="form-control", id="subjects") }}
+        </div>
+        <div>
+            <label for="teachers">Teachers:</label>
+            {{ form.teachers(class="form-control", id="teachers") }}
+        </div>
+        <button type="submit" class="btn btn-primary">Assign</button>
+    </form>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#students').select2();
+        $('#classes').select2();
+        $('#subjects').select2();
+        $('#teachers').select2();
+    });
+</script>
+
+{% endblock  %}

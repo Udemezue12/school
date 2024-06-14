@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+
+    <h1>Create Assignment</h1>
+    <form action="" method="post">
+        {{form.hidden_tag()}}
+        <div>
+            {{ form.title.label }} {{ form.title(size=32) }}
+
+        </div>
+        <div>
+            {{ form.description.label }} {{ form.description(cols=32, rows=4) }}
+        </div>
+        <div>
+            {{ form.due_date.label }} {{ form.due_date() }}
+        </div>
+        <div>
+            {{ form.class_id.label }} {{ form.class_id() }}
+        </div>
+        <div>
+            {{ form.submit() }}
+        </div>
+    </form>
+
+
+</div>
+
+{% endblock %}

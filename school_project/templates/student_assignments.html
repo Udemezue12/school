@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Assignments{% endblock %}
+{% block content %}
+    <h1>Assignments for Class {{ student_class.name }}</h1>
+    <ul class="list-group">
+        {% for assignment in assignments %}
+            <li class="list-group-item">
+                <h5>{{ assignment.title }}</h5>
+                <p>{{ assignment.description }}</p>
+                <small>Due: {{ assignment.due_date }}</small>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

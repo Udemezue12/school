@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ thread.title }}</h1>
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.content.label }}<br>
+        {{ form.content }}
+    </div>
+    <button type="submit">Post</button>
+</form>
+<ul>
+    {% for post in posts %}
+    <li>{{ post.content }} (By: {{ post.author.username }})</li>
+    {% endfor %}
+</ul>
+{% endblock %}

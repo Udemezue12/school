@@ -1,0 +1,33 @@
+<!-- templates/assign_teacher.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <form method="POST" action="{{ url_for('principal.assign_teacher') }}">
+        {{ form.hidden_tag() }}
+        <div>
+            <label for="classes">Classes:</label>
+            {{ form.classes(class="form-control", multiple=True) }}
+        </div>
+        <div>
+            <label for="subjects">Subjects:</label>
+            {{ form.subjects(class="form-control", multiple=True) }}
+        </div>
+        <div>
+            <label for="teachers">Teachers:</label>
+            {{ form.teachers(class="form-control", multiple=True) }}
+        </div>
+        <button type="submit" class="btn btn-primary">Assign</button>
+    </form>
+</div>
+
+</div>
+<script>
+    $(document).ready(function() {
+        $('#students').select2();
+        $('#classes').select2();
+        $('#subjects').select2();
+        $('#teachers').select2();
+    });
+</script>
+{% endblock %}

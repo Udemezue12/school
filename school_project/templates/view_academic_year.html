@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>All Classes</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col"> Year </th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for year in years %}
+            <tr>
+                <td>{{ year.id }}</td>
+                <td>{{ year.year }}</td>
+                <td>{{ year.start_date }}</td>
+                <td>{{ year.end_date }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

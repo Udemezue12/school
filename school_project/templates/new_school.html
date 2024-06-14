@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ url_for('principal.view_schools') }}">Schools</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('principal.view_schools') }}">View Schools</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Create New School</h1>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="name">{{ form.name.label }}</label>
+                {{ form.name(class_='form-control') }}
+                {% for error in form.name.errors %}
+                <small class="form-text text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="logo">{{ form.logo.label }}</label>
+                {{ form.logo(class_='form-control') }}
+                {% for error in form.logo.errors %}
+                <small class="form-text text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="contact_info">{{ form.contact_info.label }}</label>
+                {{ form.contact_info(class_='form-control') }}
+                {% for error in form.contact_info.errors %}
+                <small class="form-text text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="principal_id">{{ form.principal_id.label }}</label>
+                {{ form.principal_id(class_='form-control') }}
+                {% for error in form.principal_id.errors %}
+                <small class="form-text text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">{{ form.submit.label }}</button>
+        </form>
+    </div>
+</div>
+
+{% endblock  %}

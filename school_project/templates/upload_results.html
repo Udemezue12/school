@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    body {
+        padding: 2rem;
+        background-color: #f8f9fa;
+    }
+    .result-entry {
+        background-color: #ffffff;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1rem;
+    }
+    .result-entry h5 {
+        margin-bottom: 1rem;
+    }
+    .add-entry-btn, .submit-btn {
+        margin-top: 1rem;
+    }
+</style>
+</head>
+<body>
+<h1>Upload Results</h1>
+<form method="POST" action="{{ url_for('teacher.upload_results') }}">
+    {{ form.hidden_tag() }}
+    {% for result in form.results %}
+        <div class="result-entry">
+            <h5>Result Entry {{ loop.index }}</h5>
+            <div class="form-group">
+                <label for="student_id">Student Name</label>
+                <select name="results-{{ loop.index0 }}-student_id" id="student_id" class="form-control">
+                    {% for student in students %}
+                        <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="subject">Subject</label>
+                {{ result.subject(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="score">Score</label>
+                {{ result.score(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="grade">Grade</label>
+                {{ result.grade(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="remarks">Remarks</label>
+                {{ result.remarks(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="term">Term</label>
+                {{ result.term(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="principal_id">Principal Name</label>
+                <select name="results-{{ loop.index0 }}-principal_id" id="principal_id" class="form-control">
+                    {% for principal in principals %}
+                        <option value="{{ principal.id }}">{{ principal.first_name }} {{ principal.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="school_id">School Name</label>
+                <select name="results-{{ loop.index0 }}-school_id" id="school_id" class="form-control">
+                    {% for school in schools %}
+                        <option value="{{ school.id }}">{{ school.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    {% endfor %}
+    <button type="button" class="btn btn-primary add-entry-btn">Add Another Entry</button>
+    <button type="submit" class="btn btn-success submit-btn">Upload Results</button>
+</form>
+
+<script>
+    document.querySelector('.add-entry-btn').addEventListener('click', function() {
+    });
+</script>
+{% endblock %}

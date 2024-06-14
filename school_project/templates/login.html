@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Please Login!!</h2>
+                </div>
+                <div class="card-body" data-aos="flip-right" data-aos-duration="3000">
+                    <form method="post">
+                        {{ form.hidden_tag() }}
+                        <div>
+                            {{ form.email.label }} {{ form.email }}
+                        </div>
+                        <div>
+                            {{ form.password.label }} {{ form.password }}
+                        </div>
+                        <div>
+                            {{ form.remember.label }} {{ form.remember() }}
+                        </div>
+                        <br>
+                        <div>
+                            {{ form.submit() }}
+                        </div>
+                        
+                        <br>
+                        <div>
+                            <a href="{{ url_for('users.register') }}" class="link-arrow">Don't Have An Account Yet...Register</a>
+                        </div>
+                        <br>
+
+                        <div>
+                            <a href="{{ url_for('users.forgot_password') }}" class="link-arrow">Forgot Password?...Click Here</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

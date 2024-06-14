@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .container {
+        margin-top: 5rem;
+    }
+    h1 {
+        font-size: 2.5rem;
+        color: #343a40;
+        margin-bottom: 2rem;
+    }
+    .card {
+        background-color: #c97e7e98;
+        border: none;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .card-body {
+        padding: 2rem;
+    }
+    .card-title {
+        font-size: 1.5rem;
+        color: #a6ff00;
+        margin-bottom: 1rem;
+    }
+    .btn-primary {
+        background-color: #440a27;
+        border-color: #007bff;
+        font-size: 1rem;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .btn-primary:hover {
+        background-color: #557da8;
+        transform: translateY(-2px);
+    }
+    .row {
+        margin-top: 1rem;
+    }
+</style>
+
+<div class="container">
+    <h1 class="text-center"><strong>Welcome {{ current_user.last_name}} to your Dashboard</strong></h1>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Check Results</h5>
+                    <a href="{{ url_for('student.check_results') }}" class="btn btn-primary"><strong>Check Now!</strong></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">View Logs</h5>
+                    <a href="{{ url_for('teacher.view_logs') }}" class="btn btn-primary"><strong>View Logs</strong></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Events</h5>
+                    <a href="{{ url_for('teacher.view_events') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Attendance</h5>
+                    <a href="{{ url_for('student.view_attendance') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Send Message</h5>
+                    <a href="{{ url_for('teacher.send_message') }}" class="btn btn-primary"><strong>View!</strong></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Inbox</h5>
+                    <a href="{{ url_for('teacher.view_messages') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">School Calendar</h5>
+                    <a href="{{ url_for('teacher.view_school_calendar') }}" class="btn btn-primary"><strong>View Calendar</strong></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Assignment</h5>
+                    <a href="{{ url_for('student.student_assignments') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Pay for Pin</h5>
+                    <a href="{{ url_for('student.charge') }}" class="btn btn-primary"><strong>Pay!</strong></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">School Submissions</h5>
+                    <a href="{{ url_for('teacher.view_submission') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">View Results</h5>
+                    <a href="{{ url_for('student.view_results') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+       
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">School Details</h5>
+                    <a href="{{ url_for('teacher.view_schools') }}" class="btn btn-primary">Go</a>
+                </div>
+            </div>
+        </div>
+       
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Print Results</h5>
+                    <a href="{{ url_for('student.print_results', pin=pin) }}" class="btn btn-primary"><strong>Print</strong></a>
+                </div>
+            </div>
+        </div>
+
+        
+            
+
+
+
+
+
+
+
+{% endblock %}

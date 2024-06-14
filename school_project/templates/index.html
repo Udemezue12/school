@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="container jigga">
+    <div>
+
+        <h1 class="head">Welcome {{ current_user.last_name }} to the School Portal</h1>
+        <a href="{{ url_for('users.dashboard') }}" class="link-arrow,btn"><strong>Click Here to go to My Dashboard</strong></a>
+    </div>
+
+</div>
+
+<style>
+    /* Custom styles for About Us page */
+    .about-container {
+        background-color: #5f8ab5;
+        padding: 50px 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+    .jigga {
+        background-color: rgb(87, 91, 150);
+    }
+
+    .head{
+        color: white;
+    }
+
+    .team-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .team-member {
+        margin-bottom: 20px;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: hsl(0, 22%, 83%);
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .team-member h4 {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+</style>
+
+
+<div class="container mt-5 jigga">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="about-container">
+                <h2 class="text-center mb-4">About Us</h2>
+                <p class="text-center">Welcome to our website! We are [Your Organization Name], dedicated to [brief description of your organization or project].</p>
+                <p class="text-center">Our mission is to [describe your mission or goals].</p>
+                <p class="text-center">Contact us at [contact information].</p>
+                <h3 class="text-center mb-3">Our Team</h3>
+                <ul class="team-list">
+                    <li class="team-member">
+                        <h4>[Team member 1]</h4>
+                        <p>[Role]</p>
+                    </li>
+                    <li class="team-member">
+                        <h4>[Team member 2]</h4>
+                        <p>[Role]</p>
+                    </li>
+                    <!-- Add more team members as necessary -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    
+
+{% endblock %}
