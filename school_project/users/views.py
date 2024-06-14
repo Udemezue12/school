@@ -19,7 +19,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 
-from school_project.database import bcrypt, db
+from school_project.database import bcrypt, db, mail as mailer
 
 
 load_dotenv()
