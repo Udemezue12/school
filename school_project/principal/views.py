@@ -255,8 +255,7 @@ def add_academic_year():
 @principal.route("/view/terms", methods=['GET'])
 @login_required
 def view_academic_year():
-    years = db.session.query(
-        AcademicYear.id, AcademicYear.year, AcademicYear.start_date, AcademicYear.end_date).all()
+    years = AcademicYear.query.all()
     return render_template('view_academic_year.html', title='View Classes', years=years)
 
 
@@ -288,8 +287,7 @@ def add_terms():
 @principal.route("/view/terms", methods=['GET'])
 @login_required
 def view_terms():
-    terms = db.session.query(
-        Term.id, Term.name, Term.start_date, Term.end_date).all()
+    terms = Term.query.all()
     return render_template('view_terms.html', title='View Classes', terms=terms)
 
 
@@ -450,7 +448,7 @@ def view_student_grades():
     student_grades = {}
 
     for student in students:
-        grades = db.session.query(Grade).filter_by(student_id=student.id).all()
+        grades = Grade.query.filter_by(student_id=student.id).all()
         student_grades[student] = grades
 
     return render_template('view_student_grades.html', student_grades=student_grades)
@@ -463,11 +461,11 @@ def view_student_assignments():
         flash('Unauthorized access', 'danger')
         return redirect(url_for('core.index'))
 
-    students = db.session.query(User).filter_by(is_student=True).all()
+    students = User.query.filter_by(is_student=True).all()
     student_assignments = {}
 
     for student in students:
-        assignments = db.session.query(Assignment).filter_by(
+        assignments = Assignment.query.filter_by(
             student_id=student.id).all()
         student_assignments[student] = assignments
 
@@ -481,11 +479,11 @@ def view_student_attendance():
         flash('Unauthorized access', 'danger')
         return redirect(url_for('core.index'))
 
-    students = db.session.query(User).filter_by(is_student=True).all()
+    students = User.query.filter_by(is_student=True).all()
     student_attendance = {}
 
     for student in students:
-        attendance_records = db.session.query(Attendance).filter_by(
+        attendance_records = Attendance.query.filter_by(
             student_id=student.id).all()
         student_attendance[student] = attendance_records
 
@@ -661,7 +659,7 @@ def assign_teacher():
 @principal.route("/view_classes", methods=['GET'])
 @login_required
 def view_classes():
-    classes = db.session.query(Class.id, Class.name, Class.section).all()
+    classes = Class.query.all()
     return render_template('view_classes.html', title='View Classes', classes=classes)
 
 
