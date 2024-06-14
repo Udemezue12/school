@@ -5,10 +5,11 @@ from sqlalchemy.exc import IntegrityError
 
 
 from flask_login import login_required, current_user
-from school_project.database import db, bcrypt
+from school_project.database import db
 
 from school_project.forms import EventForm, MultiAssignForm, SchoolCalendarForm, AcademicYearForm, TermForm, ClassForm, NotificationForm, MessageForm, AddStudentForm, AddSubjectForm, CreateTeacherForm, CreateStudentForm, PrincipalProfileForm, MultiAssignTeacherForm, SubmissionForm, SystemLogForm, SchoolForm, PrincipalRegistrationForm
 
+import logging
 
 from school_project.models import User, Student, Teacher, Class, Message, Grade, Assignment, SchoolEvent, SchoolCalendar, AcademicYear, Term, Notification, Attendance, Subject, Submission, SystemLog, School, Principal
 from school_project.users.views import generate_pin
@@ -16,23 +17,16 @@ from school_project.users.views import generate_pin
 
 principal = Blueprint('principal', __name__)
 
+logging.basicConfig(level=logging.DEBUG)
+
 
 def validate_password(password):
-    if password is None:
-        raise ValueError('Password cannot be None.')
+    if not password:
+        raise ValueError('Password cannot be empty or None.')
     if len(password) < 8:
         raise ValueError('Password must be at least 12 characters long.')
-    if not any(char.isdigit() for char in password):
-        raise ValueError('Password must contain at least one digit.')
-    if not any(char.isupper() for char in password):
-        raise ValueError(
-            'Password must contain at least one uppercase letter.')
-    if not any(char.islower() for char in password):
-        raise ValueError(
-            'Password must contain at least one lowercase letter.')
-    if not any(char in "!@#$%^&*()_+-=[]{}|;:,.<>?/`~" for char in password):
-        raise ValueError(
-            'Password must contain at least one special character.')
+
+    
 
 
 @principal.route('/generate_pin')
@@ -63,10 +57,7 @@ def register():
         else:
             try:
                 password = form.password.data
-                validate_password(password)  # Validate the password
-
-                hashed_password = bcrypt.generate_password_hash(
-                    password).decode('utf-8')
+                validate_password(password)
 
                 user = User(
                     first_name=form.first_name.data,
@@ -74,7 +65,7 @@ def register():
                     role=form.role.data,
                     email=form.email.data,
                     username=form.username.data,
-                    password_hash=hashed_password  # Store the hashed password
+                    password=password
                 )
 
                 db.session.add(user)
@@ -94,8 +85,9 @@ def register():
                 return redirect(url_for('users.login'))
             except ValueError as e:
                 flash(str(e), 'danger')
-            except IntegrityError:
+            except IntegrityError as e:
                 db.session.rollback()
+                logging.error("IntegrityError occurred: %s", e)
                 flash(
                     "An error occurred during registration. Please try again.", 'danger')
 

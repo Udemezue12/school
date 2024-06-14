@@ -22,8 +22,8 @@ class SchoolForm(FlaskForm):
     logo = StringField('Logo URL', validators=[Optional(), Length(max=255)])
     contact_info = TextAreaField(
         'Contact Information', validators=[Optional()])
-    principal_id= SelectField('Principal', validators=[
-                                 DataRequired()], coerce=int)
+    principal_id = SelectField('Principal', validators=[
+        DataRequired()], coerce=int)
     submit = SubmitField('Submit')
 
 
@@ -38,6 +38,16 @@ class PrincipalRegistrationForm(FlaskForm):
         'password2', message='Passwords do not match')])
     password2 = PasswordField('Confirm Password', validators=[DataRequired()])
     submit = SubmitField('Register')
+
+    # def check_email(self, field):
+    #     if User.query.filter_by(email=field.data).first():
+    #         raise ValidationError('The email has already been used.')
+
+    # def check_username(self, field):
+    #     if User.query.filter_by(username=field.data).first():
+    #         raise ValidationError(
+    #             'Username has already been Used'
+    #         )
 
 
 class PrincipalProfileForm(FlaskForm):
@@ -70,6 +80,15 @@ class StudentRegistrationForm(FlaskForm):
         'password2', message='Passwords do not match')])
     password2 = PasswordField('Confirm Passowrd', validators=[DataRequired()])
     submit = SubmitField('Register')
+    # def check_email(self, field):
+    #     if User.query.filter_by(email=field.data).first():
+    #         raise ValidationError('The email has already been used.')
+
+    # def check_username(self, field):
+    #     if User.query.filter_by(username=field.data).first():
+    #         raise ValidationError(
+    #             'Username has already been Used'
+    #         )
 
 
 class TeacherProfileForm(FlaskForm):
@@ -93,6 +112,15 @@ class TeacherRegistrationForm(FlaskForm):
         'password2', message='Passwords do not match')])
     password2 = PasswordField('Confirm Passowrd', validators=[DataRequired()])
     submit = SubmitField('Register')
+    # def check_email(self, field):
+    #     if User.query.filter_by(email=field.data).first():
+    #         raise ValidationError('The email has already been used.')
+
+    # def check_username(self, field):
+    #     if User.query.filter_by(username=field.data).first():
+    #         raise ValidationError(
+    #             'Username has already been Used'
+    #         )
 
 
 class ParentProfileForm(FlaskForm):

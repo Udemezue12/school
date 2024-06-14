@@ -6,29 +6,18 @@ from flask import Flask
 import os
 from dotenv import load_dotenv
 from flask_login import UserMixin
+from flask_bcrypt import generate_password_hash, check_password_hash
 from flask import current_app
-from school_project.database import db, bcrypt
 
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from sqlalchemy import Table, Column, Integer, ForeignKey
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
+from school_project.database import db
 
-from flask_bcrypt import generate_password_hash, check_password_hash
 from school_project.login import login_manager
 
 
-from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
-from flask_mail import Mail
-
-# from school_project import app
-
-# app = Flask(__name__)
-
-# db = SQLAlchemy(app)
-# Migrate(app,db)
-# mail =  Mail(app)
 load_dotenv()
 
 SECRET_KEY = os.getenv('SECRET_KEY')
@@ -58,7 +47,7 @@ class User(UserMixin, db.Model):
     is_student = db.Column(db.Boolean, default=False)
     is_parent = db.Column(db.Boolean, default=False)
 
-    password_hash = db.Column(db.String(200), nullable=True)
+    password = db.Column(db.String(200), nullable=True)
     role = db.Column(db.String(20), nullable=False)
     # pin = db.Column(db.String(10), nullable=False)
     student = db.relationship('Student', back_populates='user', uselist=False)
@@ -86,21 +75,11 @@ class User(UserMixin, db.Model):
             password).decode('utf-8') if password else None
         self.role = role
 
-    @property
-    def password(self):
-        raise AttributeError('Password is not a readable attribute.')
-    
-    @password.setter
-    def password(self, password):
-        self.validate_password(password)
-        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
-    
-  
-
-   
-
     def check_password(self, password):
-        return bcrypt.check_password_hash(self.password_hash, password)
+        return check_password_hash(self.password_hash, password)
+
+    def __repr__(self):
+        return f"Username {self.username}"
 
     def is_student(self):
         return self.student is not None

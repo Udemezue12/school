@@ -22,21 +22,10 @@ teacher = Blueprint("teacher", __name__)
 
 
 def validate_password(password):
-    if password is None:
-        raise ValueError('Password cannot be None.')
+    if not password:
+        raise ValueError('Password cannot be empty or None.')
     if len(password) < 8:
         raise ValueError('Password must be at least 12 characters long.')
-    if not any(char.isdigit() for char in password):
-        raise ValueError('Password must contain at least one digit.')
-    if not any(char.isupper() for char in password):
-        raise ValueError(
-            'Password must contain at least one uppercase letter.')
-    if not any(char.islower() for char in password):
-        raise ValueError(
-            'Password must contain at least one lowercase letter.')
-    if not any(char in "!@#$%^&*()_+-=[]{}|;:,.<>?/`~" for char in password):
-        raise ValueError(
-            'Password must contain at least one special character.')
 
 
 @teacher.route('/teacher/profile', methods=['GET', 'POST'])
@@ -82,10 +71,7 @@ def register():
         else:
             try:
                 password = form.password.data
-                validate_password(password)  # Validate the password
-
-                hashed_password = bcrypt.generate_password_hash(
-                    password).decode('utf-8')
+                validate_password(password)
 
                 user = User(
                     first_name=form.first_name.data,
@@ -93,14 +79,14 @@ def register():
                     role=form.role.data,
                     email=form.email.data,
                     username=form.username.data,
-                    password_hash=hashed_password  # Store the hashed password
+                    password=password
                 )
 
                 db.session.add(user)
                 db.session.commit()
 
                 if user.role == 'teacher':
-                    teacher = Teacher.query.filter_by(
+                    teacher = Student.query.filter_by(
                         first_name=user.first_name,
                         last_name=user.last_name,
                         user_id=None,
@@ -113,8 +99,9 @@ def register():
                 return redirect(url_for('users.login'))
             except ValueError as e:
                 flash(str(e), 'danger')
-            except IntegrityError:
+            except IntegrityError as e:
                 db.session.rollback()
+                # logging.error("IntegrityError occurred: %s", e)
                 flash(
                     "An error occurred during registration. Please try again.", 'danger')
 
