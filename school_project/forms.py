@@ -293,6 +293,7 @@ class SubmissionForm(FlaskForm):
     date_submitted = DateField('Data Submiited', validators=[DataRequired()])
     feedback = StringField('Feedback', validators=[DataRequired()])
     student_id = SelectField('Student', validators=[DataRequired()])
+    assignment_id = SelectField('Assignment', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 

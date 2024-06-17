@@ -252,7 +252,7 @@ def add_academic_year():
     return render_template('add_academic_year.html', form=form)
 
 
-@principal.route("/view/terms", methods=['GET'])
+@principal.route("/view/years", methods=['GET'])
 @login_required
 def view_academic_year():
     years = AcademicYear.query.all()
@@ -692,6 +692,7 @@ def create_submissions():
     if form.validate_on_submit():
         submission = Submission(
             content=form.content.data,
+            assignment_id= form.assignment_id.data,
             student_id=form.student_id.data,
             teacher_id=form.teacher_id.data,
             feedback=form.feedback.data,

@@ -413,8 +413,8 @@ class SchoolEvent(db.Model):
     date = db.Column(db.DateTime, nullable=False)
     description = db.Column(db.Text, nullable=True)
 
-    def __init__(self, id, name, date, description):
-        self.id = id
+    def __init__(self, name, date, description):
+        
         self.name = name
         self.date = date
         self.description = description

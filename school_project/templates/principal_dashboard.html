@@ -23,6 +23,14 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card shadow-sm h-100">
                     <div class="card-body text-center">
+                        <h5 class="card-title">Events</h5>
+                        <a href="{{ url_for('principal.view_events') }}" class="btn btn-primary">Go</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body text-center">
                         <h5 class="card-title">Teachers</h5>
                         <a href="{{ url_for('principal.view_teachers') }}" class="btn btn-primary">Go</a>
                     </div>
@@ -121,6 +129,14 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">Create A Submission</h5>
                         <a href="{{ url_for('principal.create_submissions') }}" class="btn btn-primary">Go</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Academic Year</h5>
+                        <a href="{{ url_for('principal.view_academic_year') }}" class="btn btn-primary">Go</a>
                     </div>
                 </div>
             </div>
