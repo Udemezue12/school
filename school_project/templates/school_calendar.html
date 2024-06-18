@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>All School Events</h2>
+    <h2>All School Calendar</h2>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for calendar in claendars %}
+            {% for calendar in calendars %}
             <tr>
                 <td>{{ calendar.event_name }}</td>
                 <td>{{ calendar.event_date.strftime('%Y-%m-%d') }}</td>

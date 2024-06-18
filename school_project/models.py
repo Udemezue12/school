@@ -495,7 +495,7 @@ class Result(db.Model):
         'schools.id'), nullable=False)
     pin = db.relationship('Pin', back_populates='results')
 
-    def __init__(self, student_id, subject, score, grade, term, remarks, pin_id, pin, principal_id, school_id, teacher_id):
+    def __init__(self, student_id, subject, score, grade, term, remarks, pin_id, principal_id, school_id, teacher_id):
         self.student_id = student_id
         self.subject = subject
         self.score = score
@@ -503,7 +503,6 @@ class Result(db.Model):
         self.term = term
         self.remarks = remarks
         self.pin_id = pin_id
-        self.pin = pin
         self.principal_id = principal_id
         self.teacher_id = teacher_id
         self.school_id = school_id

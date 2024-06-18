@@ -185,8 +185,8 @@ def mark_attendance(student_id):
 @teacher.route("/view_school_calendar")
 @login_required
 def view_school_calendar():
-    calendar_entries = SchoolCalendar.query.all()
-    return render_template('school_calendar.html', calendar_entries=calendar_entries)
+    calendars = SchoolCalendar.query.all()
+    return render_template('school_calendar.html', calendars=calendars)
 
 
 @teacher.route('/teacher/class/<int:class_id>/attendance/report')
@@ -409,7 +409,7 @@ def view_schoolevent():
 
 
 # /////////////////////////////////////////////
-@teacher.route('/upload_results', methods=['GET', 'POST'])
+@teacher.route('/upload/results', methods=['GET', 'POST'])
 @login_required
 def upload_results():
     if current_user.role != "teacher":
@@ -449,7 +449,7 @@ def upload_results():
                 term=student_result['term'],
                 principal_id=principal.id,
                 school_id=school.id,
-                pin=student_pin,
+                pin_id=student_pin.id,
                 teacher_id=current_user.id
             )
 
