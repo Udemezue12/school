@@ -121,9 +121,10 @@ def charge():
                 pin = result.pin
                 msg = Message('Your Result PIN', sender=Config.MAIL_DEFAULT_SENDER, recipients=[
                               current_user.email])
-                msg.body = f'Thank you for your payment. Your result PIN is {
-                    pin}'
+                
+                msg.body = 'Thank you for your payment. Your result PIN is {}'.format(pin)
                 mail.send(msg)
+                                                                       
 
             flash('Payment successful! Check your email for the result PIN.', 'success')
             return redirect(url_for('student.payment_success'))
