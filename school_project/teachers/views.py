@@ -41,7 +41,7 @@ def update_profile():
         current_user.email = form.email.data
         if form.password.data:
             current_user.password = generate_password_hash(
-                form.password.data).decode('utf-8')
+                form.password.data).encode('utf-8')
         db.session.commit()
         flash('Profile updated successfully!', 'success')
         return redirect(url_for('users.dashboard'))
@@ -335,8 +335,8 @@ def resources():
         flash('Resource uploaded successfully', 'success')
         return redirect(url_for('teacher.resources'))
 
-    resources = Resource.query.filter_by(uploaded_by=current_user.id).all()
-    return render_template('resources.html', form=form, resources=resources)
+    # resources = Resource.query.filter_by(uploaded_by=current_user.id).all()
+    return render_template('resources.html', form=form)
 
 
 @teacher.route('/view_resources')

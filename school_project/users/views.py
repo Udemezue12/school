@@ -171,7 +171,7 @@ def reset_token(token):
     form = ResetPasswordForm()
     if form.validate_on_submit():
         user.password = generate_password_hash(
-            form.password.data).decode('utf-8')
+            form.password.data).encode('utf-8')
         user.reset_token = None
         user.reset_token_expiration = None
         db.session.commit()

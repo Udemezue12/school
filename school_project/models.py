@@ -72,7 +72,7 @@ class User(UserMixin, db.Model):
         self.email = email
         self.username = username
         self.password = generate_password_hash(
-            password).decode('utf-8') if password else None
+            password).encode('utf-8') if password else None
         self.role = role
 
     def check_password(self, password):
@@ -414,7 +414,7 @@ class SchoolEvent(db.Model):
     description = db.Column(db.Text, nullable=True)
 
     def __init__(self, name, date, description):
-        
+
         self.name = name
         self.date = date
         self.description = description
