@@ -125,7 +125,7 @@ def update_profile():
 def send_mail(to, template, subject, link, username, **kwargs):
     try:
         with app.app_context():
-            sender = app.config['MAIL_USERNAME']
+            sender = app.config['MAIL_DEFAULT_SENDER']
             msg = Message(subject=subject, sender=sender, recipients=[to])
             html = render_template(template, username=username, link=link, **kwargs)
             inlined = css_inline.inline(html)

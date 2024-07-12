@@ -25,7 +25,7 @@ class Config:
     MAIL_PORT = 587
     SALT = os.getenv('SALT')
     MAIL_USE_TLS = True
-    MAIL_USERNAME = os.getenv('EMAIL_DEFAULT_SENDER')
+    MAIL_DEFAULT_SENDER = os.getenv('EMAIL_DEFAULT_SENDER')
     # SERVER_URL = 'http://127.0.0.1:3000' if os.getenv('FLASK_ENV') == 'development' else 'https://school-portal-dsyf.onrender.com'
     SERVER_URL = 'http://127.0.0.1:3000' if os.getenv('FLASK_ENV') == 'development' else 'https://school-portal-dsyf.onrender.com'
     MAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
