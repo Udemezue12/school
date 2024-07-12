@@ -125,7 +125,7 @@ def update_profile():
 def send_mail(to, template, subject, link, username, **kwargs):
     try:
         with app.app_context():
-            sender = app.config['MAIL_DEFAULT_SENDER']
+            sender = app.config['MAIL_USERNAME']
             msg = Message(subject=subject, sender=sender, recipients=[to])
             html = render_template(template, username=username, link=link, **kwargs)
             inlined = css_inline.inline(html)
@@ -138,6 +138,7 @@ def send_mail(to, template, subject, link, username, **kwargs):
 
 @users.route("/reset_password", methods=["POST", "GET"])
 def forgot_password():
+    # sender = app.config['MAIL_DEFAULT_SENDER']
     form = ForgotPasswordForm()
     if form.validate_on_submit():
         email = form.email.data
@@ -152,6 +153,7 @@ def forgot_password():
                 db.session.commit()
                 send_mail(
                     to=email,
+                    # sender=sender,
                     template="email.html",
                     subject="Reset Password",
                     username=username,
