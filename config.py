@@ -25,15 +25,15 @@ salt = mine
 
 class Config:
     SECRET_KEY = os.getenv('SECRET_KEY')
-    MAIL_SERVER = 'smtp.gmail.com'
-    MAIL_PORT = 587
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
     SALT = os.getenv('SALT')
-    MAIL_USE_TLS = True
-    MAIL_USE_SSL=False
-    MAIL_USERNAME= os.getenv('MAIL_USERNAME')
+    EMAIL_USE_TLS = True
+    EMAIL_USE_SSL=False
+    EMAIL_HOST_USER= os.getenv('EMAIL_HOST_USER')
     
     SERVER_URL = 'http://127.0.0.1:3000' if os.getenv('FLASK_ENV') == 'development' else 'https://school-portal-dsyf.onrender.com'
-    MAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
+    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
     PAYSTACK_PUBLIC_KEY = os.getenv('PAYSTACK_PUBLIC_KEY')
     PAYSTACK_SECRET_KEY = os.getenv('PAYSTACK_SECRET_KEY')
     # SECRET_KEY = os.getenv('SECRET_KEY') or 'your_secret_key'
