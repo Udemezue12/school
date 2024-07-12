@@ -2,11 +2,13 @@ import random
 import os
 import string
 from flask_mail import Message
+import secrets
 from werkzeug.security import generate_password_hash
 
 from dotenv import load_dotenv
 from flask import render_template, url_for, flash, redirect, request, Blueprint, current_app
-
+import css_inline
+from itsdangerous.exc import BadTimeSignature, BadSignature
 from sqlalchemy.exc import IntegrityError
 from flask_login import login_user, current_user, logout_user, login_required
 # from db import db, bcrypt, mail as mailer
@@ -19,13 +21,12 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 
-from school_project.database import bcrypt, db, mail as mailer
+from school_project.database import bcrypt, db
+
+from config import mail, serializer, salt
 
 
-load_dotenv()
 
-
-senders_mail = os.getenv('MAIL_HOST_USER')
 
 
 users = Blueprint('users', __name__)
@@ -51,7 +52,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
+        if user and bcrypt.check_password_hash(user.password, form.password.data + salt):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('core.index'))
@@ -117,65 +118,74 @@ def update_profile():
     return render_template('update_profile.html', title='Update Profile', form=form)
 
 
-# /////////////////////////
 
 
-# ////////////////////////////////////////
 
 
-@users.route('/forgot/password', methods=['GET', 'POST'])
+def send_mail(to, template, subject, link, username, **kwargs):
+    with current_app.app_context():
+        sender = current_app.config['MAIL_USERNAME']  
+        msg = Message(subject=subject, sender=sender, recipients=[to])
+        html = render_template(template, username=username, link=link, **kwargs)
+        inlined = css_inline.inline(html)
+        msg.html = inlined
+        mail.send(msg)
+
+
+@users.route("/reset_password", methods=["POST", "GET"])
 def forgot_password():
-    if current_user.is_authenticated:
-        return redirect(url_for('users.dashboard'))
-
     form = ForgotPasswordForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        email = form.email.data
+
+        user = User.query.filter_by(email=email).first()
         if user:
-            token = user.generate_reset_token()
-            send_reset_email(user, token)
-            flash(
-                'An email has been sent with instructions to reset your password.', 'info')
+            username = user.username
+            hashCode = serializer.dumps(email, salt="reset-password")
+            user.hashCode = hashCode
+            server = current_app.config['SERVER_URL']
+            link = f"{server}/{hashCode}"
+            db.session.commit()
+            send_mail(
+                to=email,
+                template="email.html",
+                subject="Reset Password",
+                username=username,
+                link=link,
+            )
+            flash("A password reset link has been sent to your email!", "success")
             return redirect(url_for('users.login'))
         else:
-            flash('No account found with that email.', 'danger')
+            flash("User does not exist!", "danger")
+
     return render_template('forgot_password.html', title='Forgot Password', form=form)
 
 
-def send_reset_email(user, token):
-    msg = Message('Password Reset Request',
-                  sender=current_app.config['MAIL_DEFAULT_SENDER'], recipients=[user.email])
-
-    msg.body = f'''To reset your password, visit the following link:
-{url_for('users.reset_token', token=token, _external=True)}
-
-If you did not make this request then simply ignore this email and no changes will be made.
-'''
+@users.route("/<string:hashCode>", methods=["GET", "POST"])
+def hashcode(hashCode):
     try:
-        mailer.send(msg)
-    except Exception as e:
-        flash('Failed to send the reset email. Please try again later.', 'danger')
-        print(f"Error sending email: {e}")
+        email = serializer.loads(hashCode, salt="reset-password", max_age=3600)
+    except BadTimeSignature:
+        flash("The password reset link has expired. Please request a new one.", "danger")
+        return redirect(url_for("core.index"))
+    except BadSignature:
+        flash("Invalid password reset link. Please request a new one.", "danger")
+        return redirect(url_for("core.index"))
 
-
-@users.route('/reset_password/<token>', methods=['GET', 'POST'])
-def reset_token(token):
-    if current_user.is_authenticated:
-        return redirect(url_for('users.dashboard'))
-
-    user = User.verify_reset_token(token)
-    if user is None:
-        flash('The reset link is invalid or has expired.', 'warning')
-        return redirect(url_for('users.forgot_password'))
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        flash("User does not exist!", "danger")
+        return redirect(url_for("core.index"))
 
     form = ResetPasswordForm()
     if form.validate_on_submit():
-        user.password = generate_password_hash(
-            form.password.data).encode('utf-8')
-        user.reset_token = None
-        user.reset_token_expiration = None
-        db.session.commit()
-        flash('Your password has been updated!', 'success')
-        return redirect(url_for('users.login'))
+        if form.password.data == form.confirm_password.data:
+            user.password = bcrypt.generate_password_hash(form.password.data + salt).decode('utf-8')
+            user.hashCode = None
+            db.session.commit()
+            flash("Your password has been reset successfully!", "success")
+            return redirect(url_for("users.login"))
+        else:
+            flash("Password fields do not match.", "danger")
 
-    return render_template('reset_password.html', title='Reset Password', form=form)
+    return render_template("reset_password.html", form=form, hashCode=hashCode)

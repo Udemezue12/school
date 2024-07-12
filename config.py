@@ -1,30 +1,33 @@
+from clean import app
 import os
-from datetime import timedelta
 from dotenv import load_dotenv
+from flask_mail import Mail
+from itsdangerous import URLSafeTimedSerializer 
+import secrets
 
 
 load_dotenv()
+salt = secrets.token_hex(16)
 
+# app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+# app.config['MAIL_SERVER'] = 'smtp.example.com'
+# app.config['MAIL_PORT'] = 587
+# app.config['MAIL_USE_TLS'] = True
+# app.config['MAIL_USERNAME'] = os.getenv('EMAIL_DEFAULT_SENDER')
+# app.config['MAIL_PASSWORD'] = os.getenv('EMAIL_PASSWORD')
 
-
-
-# if __name__ == '__main__':
-#     mapp.run()
-basedir = os.path.abspath(os.path.dirname(__file__))
+# mail = Mail(app)
 
 
 class Config:
     SECRET_KEY = os.getenv('SECRET_KEY')
-    MAIL_SERVER = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
+    MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 587
-    MAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'true').lower() in ['true', 'on', '1']
-    MAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', 'false').lower() in ['true', 'on', '1']
-    MAIL_USERNAME = os.getenv('EMAIL_USERNAME')
+    SALT = os.getenv('SALT')
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = os.getenv('EMAIL_DEFAULT_SENDER')
+    SERVER_URL = 'http://127.0.0.1:3000' if os.getenv('FLASK_ENV') == 'development' else 'https://school-portal-dsyf.onrender.com'
     MAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
-    MAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-    STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
-    STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
-    MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER', 'udemezue0009@gmail.com')
     PAYSTACK_PUBLIC_KEY = os.getenv('PAYSTACK_PUBLIC_KEY')
     PAYSTACK_SECRET_KEY = os.getenv('PAYSTACK_SECRET_KEY')
     # SECRET_KEY = os.getenv('SECRET_KEY') or 'your_secret_key'
@@ -37,6 +40,11 @@ class Config:
     FORUM_TOPICS_PER_PAGE = 20
     FORUM_POSTS_PER_PAGE = 10
 
-    
+mine = os.getenv('SALT')
+salt = mine
+app.config.from_object(Config)
+mail = Mail(app)
 
-    
+serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'], app.config['SALT'])
+with app.app_context():
+    pass
