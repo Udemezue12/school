@@ -126,9 +126,9 @@ def update_profile():
 
 def send_mail(to, template, subject, link, username, **kwargs):
     try:
-        with app.app_context():
-            sender = os.getenv('MAIL_USERNAME')
-            msg = Message(subject=subject, sender=sender, recipients=[to])
+        with current_app.app_context():
+            # sender = current_app.config['MAIL_USERNAME']
+            msg = Message(subject=subject, sender='udemezue0009@gmail.com', recipients=[to])
             html = render_template(template, username=username, link=link, **kwargs)
             inlined = css_inline.inline(html)
             msg.html = inlined
@@ -136,6 +136,7 @@ def send_mail(to, template, subject, link, username, **kwargs):
             current_app.logger.info(f"Email sent to {to}")
     except Exception as e:
         current_app.logger.error(f"Failed to send email: {str(e)}")
+        raise
         raise
 
 @users.route("/reset_password", methods=["POST", "GET"])
