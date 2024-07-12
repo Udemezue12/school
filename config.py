@@ -26,6 +26,7 @@ class Config:
     SALT = os.getenv('SALT')
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.getenv('EMAIL_DEFAULT_SENDER')
+    # SERVER_URL = 'http://127.0.0.1:3000' if os.getenv('FLASK_ENV') == 'development' else 'https://school-portal-dsyf.onrender.com'
     SERVER_URL = 'http://127.0.0.1:3000' if os.getenv('FLASK_ENV') == 'development' else 'https://school-portal-dsyf.onrender.com'
     MAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
     PAYSTACK_PUBLIC_KEY = os.getenv('PAYSTACK_PUBLIC_KEY')
@@ -35,10 +36,7 @@ class Config:
     # SQLALCHEMY_TRACK_MODIFICATIONS = False
     # USE_SESSION_FOR_NEXT = True
     # REMEMBER_COOKIE_DURATION = timedelta(seconds=20)
-    FORUM_TITLE = "School Portal Forum"
-    FORUM_SUBTITLE = "A place for students, teachers, parents, and principals to communicate"
-    FORUM_TOPICS_PER_PAGE = 20
-    FORUM_POSTS_PER_PAGE = 10
+    
 
 mine = os.getenv('SALT')
 salt = mine

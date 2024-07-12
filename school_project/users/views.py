@@ -4,7 +4,7 @@ import string
 from flask_mail import Message
 import secrets
 from werkzeug.security import generate_password_hash
-
+from clean import app
 from dotenv import load_dotenv
 from flask import render_template, url_for, flash, redirect, request, Blueprint, current_app
 import css_inline
@@ -141,7 +141,7 @@ def forgot_password():
         user = User.query.filter_by(email=email).first()
         if user:
             username = user.username
-            hashCode = serializer.dumps(email, salt="reset-password")
+            hashCode = serializer.dumps(email, salt='reset-password')
             user.hashCode = hashCode
             server = current_app.config['SERVER_URL']
             link = f"{server}/{hashCode}"
