@@ -20,7 +20,7 @@ from school_project.models import Teacher, Student, UserPin
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
-
+import logging
 from school_project.database import bcrypt, db
 
 from config import mail, serializer, salt
@@ -123,38 +123,45 @@ def update_profile():
 
 
 def send_mail(to, template, subject, link, username, **kwargs):
-    with current_app.app_context():
-        sender = current_app.config['MAIL_USERNAME']  
-        msg = Message(subject=subject, sender=sender, recipients=[to])
-        html = render_template(template, username=username, link=link, **kwargs)
-        inlined = css_inline.inline(html)
-        msg.html = inlined
-        mail.send(msg)
-
+    try:
+        with app.app_context():
+            sender = app.config['MAIL_USERNAME']
+            msg = Message(subject=subject, sender=sender, recipients=[to])
+            html = render_template(template, username=username, link=link, **kwargs)
+            inlined = css_inline.inline(html)
+            msg.html = inlined
+            mail.send(msg)
+            current_app.logger.info(f"Email sent to {to}")
+    except Exception as e:
+        current_app.logger.error(f"Failed to send email: {str(e)}")
+        raise
 
 @users.route("/reset_password", methods=["POST", "GET"])
 def forgot_password():
     form = ForgotPasswordForm()
     if form.validate_on_submit():
         email = form.email.data
-
         user = User.query.filter_by(email=email).first()
         if user:
-            username = user.username
-            hashCode = serializer.dumps(email, salt='reset-password')
-            user.hashCode = hashCode
-            server = current_app.config['SERVER_URL']
-            link = f"{server}/{hashCode}"
-            db.session.commit()
-            send_mail(
-                to=email,
-                template="email.html",
-                subject="Reset Password",
-                username=username,
-                link=link,
-            )
-            flash("A password reset link has been sent to your email!", "success")
-            return redirect(url_for('users.login'))
+            try:
+                username = user.username
+                hashCode = serializer.dumps(email, salt='reset-password')
+                user.hashCode = hashCode
+                server = app.config['SERVER_URL']
+                link = f"{server}/{hashCode}"
+                db.session.commit()
+                send_mail(
+                    to=email,
+                    template="email.html",
+                    subject="Reset Password",
+                    username=username,
+                    link=link,
+                )
+                flash("A password reset link has been sent to your email!", "success")
+                return redirect(url_for('users.login'))
+            except Exception as e:
+                current_app.logger.error(f"Error during password reset: {str(e)}")
+                flash("An error occurred. Please try again later.", "danger")
         else:
             flash("User does not exist!", "danger")
 
@@ -180,7 +187,7 @@ def hashcode(hashCode):
     form = ResetPasswordForm()
     if form.validate_on_submit():
         if form.password.data == form.confirm_password.data:
-            user.password = bcrypt.generate_password_hash(form.password.data + salt).decode('utf-8')
+            user.password = bcrypt.generate_password_hash(form.password.data + app.config['SALT']).decode('utf-8')
             user.hashCode = None
             db.session.commit()
             flash("Your password has been reset successfully!", "success")
