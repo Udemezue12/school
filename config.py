@@ -48,4 +48,4 @@ mail = Mail(app)
 with app.app_context():
     pass
 
-serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'], app.config['SALT'])
+serializer = URLSafeTimedSerializer(os.getenv('SECRET_KEY'), os.getenv('SALT'))

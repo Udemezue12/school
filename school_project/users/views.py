@@ -25,6 +25,8 @@ from school_project.database import bcrypt, db
 
 from config import mail, serializer, salt
 
+load_dotenv()
+
 
 
 
@@ -52,7 +54,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data + salt):
+        if user and bcrypt.check_password_hash(user.password, form.password.data + os.getenv('SALT')):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('core.index'))
@@ -125,7 +127,7 @@ def update_profile():
 def send_mail(to, template, subject, link, username, **kwargs):
     try:
         with app.app_context():
-            sender = app.config['MAIL_USERNAME']
+            sender = os.getenv('MAIL_USERNAME')
             msg = Message(subject=subject, sender=sender, recipients=[to])
             html = render_template(template, username=username, link=link, **kwargs)
             inlined = css_inline.inline(html)
@@ -148,7 +150,7 @@ def forgot_password():
                 username = user.username
                 hashCode = serializer.dumps(email, salt='reset-password')
                 user.hashCode = hashCode
-                server = app.config['SERVER_URL']
+                server = os.getenv('DEV_URL') if os.getenv('FLASK_ENV') == 'development' else os.getenv('PROD_URL')
                 link = f"{server}/{hashCode}"
                 db.session.commit()
                 send_mail(
@@ -189,7 +191,7 @@ def hashcode(hashCode):
     form = ResetPasswordForm()
     if form.validate_on_submit():
         if form.password.data == form.confirm_password.data:
-            user.password = bcrypt.generate_password_hash(form.password.data + app.config['SALT']).decode('utf-8')
+            user.password = bcrypt.generate_password_hash(form.password.data + os.getenv('SALT')).decode('utf-8')
             user.hashCode = None
             db.session.commit()
             flash("Your password has been reset successfully!", "success")
