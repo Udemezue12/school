@@ -23,14 +23,20 @@ salt = mine
 # mail = Mail(app)
 
 
+import os
+
 class Config:
     SECRET_KEY = os.getenv('SECRET_KEY')
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_PORT = 587
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True  # Ensure this is set to True
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = os.getenv('EMAIL_USERNAME')  # Your email address
+    MAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')  # App password
+    MAIL_DEFAULT_SENDER = os.getenv('EMAIL_USERNAME')  # Your email address
     SALT = os.getenv('SALT')
-    EMAIL_USE_TLS = True
-    EMAIL_USE_SSL=False
-    EMAIL_HOST_USER= os.getenv('EMAIL_HOST_USER')
+    # SERVER_URL = os.getenv('SERVER_URL')
+
     
     SERVER_URL = 'http://127.0.0.1:3000' if os.getenv('FLASK_ENV') == 'development' else 'https://school-portal-dsyf.onrender.com'
     EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
