@@ -3,6 +3,7 @@ import os
 import string
 from flask_mail import Message
 import secrets
+import requests
 from werkzeug.security import generate_password_hash
 from clean import app
 from dotenv import load_dotenv
@@ -16,19 +17,18 @@ from school_project.models import User
 from school_project.users.forms import RegistrationForm, LoginForm, UpdateForm, ForgotPasswordForm, ResetPasswordForm
 from school_project.utils import save_picture
 from school_project.models import Teacher, Student, UserPin
-
+from ssl import create_default_context
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 import logging
 from school_project.database import bcrypt, db
-
+from smtplib import SMTP_SSL, SMTP
+import ssl
+from email.utils import formataddr
 from config import mail, serializer, salt
 
 load_dotenv()
-
-
-
 
 
 users = Blueprint('users', __name__)
@@ -40,6 +40,10 @@ def generate_pin():
     db.session.add(new_pin)
     db.session.commit()
     return pin
+
+
+def generate_four_digit_code():
+    return random.randint(1000, 9999)
 
 
 @users.route('/register', methods=['GET', 'POST'])
@@ -120,15 +124,32 @@ def update_profile():
     return render_template('update_profile.html', title='Update Profile', form=form)
 
 
-
-
-
-
+# def send_mail_starttls(to, template, subject, link, username, **kwargs):
+#     try:
+#         with current_app.app_context():
+#             msg = Message(subject=subject, sender=os.getenv('MAIL_USERNAME'), recipients=[to])
+#             html = render_template(template, username=username, link=link, **kwargs)
+#             inlined = css_inline.inline(html)
+#             msg.html = inlined
+#             # SSL context setup
+#             context = ssl.create_default_context()
+#             with SMTP('smtp-relay.sendinblue.com', 587) as conn:
+#                 conn.starttls(context=context)
+#                 conn.login(os.getenv('MAIL_USERNAME'), os.getenv('MAIL_PASSWORD'))
+#                 conn.sendmail(
+#                     os.getenv('MAIL_USERNAME'),
+#                     [to],
+#                     msg.as_string().encode('UTF-8')
+#                 )
+#             current_app.logger.info(f"Email sent to {to}")
+#     except Exception as e:
+#         current_app.logger.error(f"Failed to send email: {str(e)}")
+#         raise
 def send_mail(to, template, subject, link, username, **kwargs):
     try:
         with current_app.app_context():
-            # sender = current_app.config['MAIL_USERNAME']
-            msg = Message(subject=subject, sender='udemezue0009@gmail.com', recipients=[to])
+            sender = os.getenv('EMAIL_USERNAME')
+            msg = Message(subject=subject, sender=sender, recipients=[to])
             html = render_template(template, username=username, link=link, **kwargs)
             inlined = css_inline.inline(html)
             msg.html = inlined

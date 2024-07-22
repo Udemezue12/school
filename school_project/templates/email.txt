@@ -1,0 +1,14 @@
+Reset Your Password
+
+Hello, {{ username }}
+
+We received a request to reset your password. Click the button below to reset it:
+
+Reset Password
+
+If you did not request a password reset, please ignore this email. This link will expire in 24 hours.
+
+Thank you,
+Astrotech......
+
+© {{ current_year }} Astrotech......All rights reserved.
