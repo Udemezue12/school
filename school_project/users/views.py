@@ -149,7 +149,7 @@ def update_profile():
 def send_mail(to, template, subject, link, username, **kwargs):
     try:
         with current_app.app_context():
-            msg = Message(subject=subject, sender='udemezue0009@gmail.com', recipients=[to])
+            msg = Message(subject=subject, sender=sender, recipients=[to])
             html = render_template(template, username=username, link=link, **kwargs)
             inlined = css_inline.inline(html)
             msg.html = inlined
