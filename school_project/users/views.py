@@ -33,6 +33,7 @@ load_dotenv()
 
 users = Blueprint('users', __name__)
 
+sender = os.getenv('EMAIL_USERNAME')
 
 def generate_pin():
     pin = ''.join(random.choices(string.digits, k=6))
@@ -148,8 +149,7 @@ def update_profile():
 def send_mail(to, template, subject, link, username, **kwargs):
     try:
         with current_app.app_context():
-            sender = os.getenv('EMAIL_USERNAME')
-            msg = Message(subject=subject, sender=sender, recipients=[to])
+            msg = Message(subject=subject, sender='udemezue0009@gmail.com', recipients=[to])
             html = render_template(template, username=username, link=link, **kwargs)
             inlined = css_inline.inline(html)
             msg.html = inlined
