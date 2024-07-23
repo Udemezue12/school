@@ -1,14 +1,15 @@
 
-from flask import render_template, url_for, flash, abort,  redirect, request, Blueprint
+from flask import render_template, url_for, flash, abort,  redirect, request, Blueprint, current_app
 from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash
+import os
 # from db import db
 from school_project.utils import generate_pin, save_picture, save_file
 from school_project.forms import StudentForm, AttendanceForm, SelectStudentForm, GradeForm, ResourceForm, AssignmentForm, MessageForm, TeacherProfileForm, ResultForm, TeacherRegistrationForm, CalendarForm
 from school_project.models import Result, User, Student, Attendance, Grade, Teacher, Resource, Submission, PersonalCalendar, Class, Assignment, SchoolEvent, Message, Pin, SchoolCalendar, SystemLog, School
 
-
+from dotenv import load_dotenv
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 # from flask_mail import Mail
@@ -20,6 +21,7 @@ from school_project.database import mail, db, bcrypt
 
 teacher = Blueprint("teacher", __name__)
 
+load_dotenv()
 
 def validate_password(password):
     if not password:
@@ -63,47 +65,61 @@ def register():
     form = TeacherRegistrationForm()
     if form.validate_on_submit():
         username = form.username.data
-        existing_user = User.query.filter_by(username=username).first()
-        if existing_user:
-            flash(
-                'Username already exists. Please choose a different username.', 'danger')
+        email = form.email.data
+
+        existing_user_by_username = User.query.filter_by(username=username).first()
+        existing_user_by_email = User.query.filter_by(email=email).first()
+
+        if existing_user_by_username:
+            flash('Username already exists. Please choose a different username.', 'danger')
             return redirect(url_for('users.register'))
-        else:
-            try:
-                password = form.password.data
-                validate_password(password)
+        
+        if existing_user_by_email:
+            flash('Email already exists. Please use a different email address.', 'danger')
+            return redirect(url_for('users.register'))
 
-                user = User(
-                    first_name=form.first_name.data,
-                    last_name=form.last_name.data,
-                    role=form.role.data,
-                    email=form.email.data,
-                    username=form.username.data,
-                    password=password
-                )
+        try:
+            password = form.password.data + os.getenv('SALT')
+            validate_password(password)
 
-                db.session.add(user)
-                db.session.commit()
+            user = User(
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                role=form.role.data,
+                email=form.email.data,
+                username=form.username.data,
+                password=password
+            )
 
-                if user.role == 'teacher':
-                    teacher = Student.query.filter_by(
-                        first_name=user.first_name,
-                        last_name=user.last_name,
-                        user_id=None,
-                    ).first()
-                    if teacher:
-                        teacher.user_id = user.id
-                        db.session.commit()
+            db.session.add(user)
+            db.session.commit()
 
-                flash('Thanks for registering!', 'success')
-                return redirect(url_for('users.login'))
-            except ValueError as e:
-                flash(str(e), 'danger')
-            except IntegrityError as e:
-                db.session.rollback()
-                # logging.error("IntegrityError occurred: %s", e)
-                flash(
-                    "An error occurred during registration. Please try again.", 'danger')
+            if user.role == 'teacher':
+                teacher = Teacher.query.filter_by(
+                    first_name=user.first_name,
+                    last_name=user.last_name,
+                    user_id=None,
+                ).first()
+                if teacher:
+                    teacher.user_id = user.id
+                    db.session.commit()
+
+            flash('Thanks for registering!', 'success')
+            return redirect(url_for('users.login'))
+        except ValueError as e:
+            flash(str(e), 'danger')
+            current_app.logger.error(f"ValueError during registration: {str(e)}")
+            print(f"ValueError during registration: {str(e)}")
+        except IntegrityError as e:
+            db.session.rollback()
+            flash("An error occurred during registration. Please try again.", 'danger')
+            current_app.logger.error(f"IntegrityError during registration: {str(e)}")
+            print(f"IntegrityError during registration: {str(e)}")
+        except Exception as e:
+            db.session.rollback()
+            flash("An error occurred during registration. Please try again.", 'danger')
+            current_app.logger.error(f"Exception during registration: {str(e)}")
+            print(f"Exception during registration: {str(e)}")
 
     return render_template('teacher_register.html', form=form)
 

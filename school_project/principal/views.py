@@ -3,12 +3,12 @@ from werkzeug.security import generate_password_hash
 from flask import render_template, url_for, flash, redirect, Blueprint
 from sqlalchemy.exc import IntegrityError
 
-
+import os
 from flask_login import login_required, current_user
 from school_project.database import db
 
 from school_project.forms import EventForm, MultiAssignForm, SchoolCalendarForm, AcademicYearForm, TermForm, ClassForm, NotificationForm, MessageForm, AddStudentForm, AddSubjectForm, CreateTeacherForm, CreateStudentForm, PrincipalProfileForm, MultiAssignTeacherForm, SubmissionForm, SystemLogForm, SchoolForm, PrincipalRegistrationForm
-
+from dotenv import load_dotenv
 import logging
 
 from school_project.models import User, Student, Teacher, Class, Message, Grade, Assignment, SchoolEvent, SchoolCalendar, AcademicYear, Term, Notification, Attendance, Subject, Submission, SystemLog, School, Principal
@@ -18,6 +18,7 @@ from school_project.users.views import generate_pin
 principal = Blueprint('principal', __name__)
 
 logging.basicConfig(level=logging.DEBUG)
+load_dotenv()
 
 
 def validate_password(password):
@@ -54,7 +55,7 @@ def register():
             return redirect(url_for('users.register'))
         else:
             try:
-                password = form.password.data
+                password = form.password.data + os.getenv('SALT')
                 validate_password(password)
 
                 user = User(

@@ -72,7 +72,7 @@ class User(UserMixin, db.Model):
         self.email = email
         self.username = username
         self.password = generate_password_hash(
-            password).encode('utf-8') if password else None
+            password).decode('utf-8') if password else None
         self.role = role
 
     def check_password(self, password):

@@ -24,7 +24,8 @@ import os
 class Config:
     SECRET_KEY = os.getenv('SECRET_KEY')
     MAIL_SERVER = 'smtp.gmail.com'
-    MAIL_USE_SSL = smtplib.SMTP_SSL("smtp.gmail.com",465)
+    # MAIL_USE_SSL = smtplib.SMTP_SSL("smtp.gmail.com",465)
+    MAIL_USE_SSL =True
     MAIL_PORT = 465
     MAIL_USERNAME = os.getenv('EMAIL_USERNAME')  
     MAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
