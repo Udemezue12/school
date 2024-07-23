@@ -5,6 +5,7 @@ from flask_mail import Mail
 from itsdangerous import URLSafeTimedSerializer 
 import secrets
 import smtplib , ssl
+import logging
 
 
 load_dotenv()
@@ -37,7 +38,8 @@ class Config:
     TERMII_API_KEY = os.getenv('TERMII_API_KEY')
     TERMII_MAIL_URL = os.getenv('TERMII_MAIL_URL')
   
-    
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app.config.from_object(Config)
 mail = Mail(app)
